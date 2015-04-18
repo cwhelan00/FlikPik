@@ -4,10 +4,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import dao.ActorDAO;
+import dao.DirectorDAO;
+import dao.GenreDAO;
 import dao.MovieDAO;
+import dao.TagDAO;
+import model.Actor;
+import model.Director;
+import model.Genre;
 import model.Movie;
+import model.Tag;
 
 import java.util.List;
 
@@ -18,19 +27,123 @@ public class MovieController {
 	@Autowired
 	private MovieDAO movieDAO;
 	
-	@RequestMapping("/")
+	@Autowired
+	private ActorDAO actorDAO;
+	
+	@Autowired
+	private DirectorDAO directorDAO;
+	
+	@Autowired
+	private GenreDAO genreDAO;
+	
+	@Autowired
+	private TagDAO tagDAO;
+	
+	private static final int LIMIT = 50;
+	
+	@RequestMapping("")
 	public ModelAndView movies(){
 		ModelAndView mv = new ModelAndView("movies");
-		List<Movie> movies = movieDAO.getMovies();
+		List<Movie> movies = movieDAO.getMovies(LIMIT);
+		mv.addObject("pageNum", 0);
+		mv.addObject("movies", movies);
+		mv.addObject("selected", "all");
+		return mv;
+	}
+	
+	@RequestMapping("/search")
+	public ModelAndView moviesSearch(@RequestParam("title") String title){
+		ModelAndView mv = new ModelAndView("moviesSearch");
+		List<Movie> movies = movieDAO.getMoviesLike(title, LIMIT);
+		List<Movie> exact = movieDAO.getMovieByTitle(title);
+		if(!exact.isEmpty()){
+			mv.addObject("exactMovie", exact.get(0));
+		}
+		mv.addObject("pageNum", 0);
+		mv.addObject("searchTitle", title);
+		mv.addObject("movies", movies);
+		mv.addObject("selected", "all");
+		return mv;
+	}
+	
+	@RequestMapping("/search/page/{pageNum}")
+	public ModelAndView moviesSearchPage(@PathVariable int pageNum, @RequestParam("title") String title){
+		int offset = pageNum * LIMIT;
+		ModelAndView mv = new ModelAndView("moviesSearch");
+		List<Movie> movies = movieDAO.getMoviesLike(title, LIMIT, offset);
+		List<Movie> exact = movieDAO.getMovieByTitle(title);
+		if(!exact.isEmpty()){
+			mv.addObject("exactMovie", exact.get(0));
+		}
+		mv.addObject("pageNum", pageNum);
+		mv.addObject("searchTitle", title);
+		mv.addObject("movies", movies);
+		mv.addObject("selected", "all");
+		return mv;
+	}
+	
+	@RequestMapping("/page/{pageNum}")
+	public ModelAndView moviesPage(@PathVariable int pageNum){
+		int offset = pageNum * LIMIT;
+		ModelAndView mv = new ModelAndView("movies");
+		List<Movie> movies = movieDAO.getMovies(LIMIT, offset);
+		mv.addObject("pageNum", pageNum);
+		mv.addObject("movies", movies);
+		mv.addObject("genreType", "all");
+		return mv;
+	}
+	
+	@RequestMapping("/genre/{genreType}")
+	public ModelAndView getMoviesByGenre(@PathVariable String genreType){
+		ModelAndView mv = new ModelAndView("moviesGenre");
+		List<Movie> movies = movieDAO.getMoviesByGenre(genreType, LIMIT);
+		mv.addObject("pageNum", 0);
+		mv.addObject("movies", movies);
+		mv.addObject("genreType", genreType);
+		return mv;
+	}
+	
+	@RequestMapping("/genre/{genreType}/page/{pageNum}")
+	public ModelAndView getMoviesByGenrePage(@PathVariable String genreType, @PathVariable int pageNum){
+		int offset = pageNum * LIMIT;
+		ModelAndView mv = new ModelAndView("moviesGenre");
+		List<Movie> movies = movieDAO.getMoviesByGenre(genreType, LIMIT, offset);
+		mv.addObject("pageNum", pageNum);
+		mv.addObject("movies", movies);
+		mv.addObject("selected", genreType);
+		return mv;
+	}
+	
+	@RequestMapping("/tag/{tagID}")
+	public ModelAndView getMoviesByTag(@PathVariable int tagID){
+		ModelAndView mv = new ModelAndView("movies");
+		List<Movie> movies = movieDAO.getMoviesByTag(tagID);
 		mv.addObject("movies", movies);
 		return mv;
 	}
 	
-	@RequestMapping("/{movieId}")
-	public ModelAndView getMovie(@PathVariable int movieId){
+	@RequestMapping("/tag/{tagID}/page/{pageNum}")
+	public ModelAndView getMoviesByTagPage(@PathVariable int tagID, @PathVariable int pageNum){
+		int offset = pageNum * LIMIT;
+		ModelAndView mv = new ModelAndView("movies");
+		List<Movie> movies = movieDAO.getMoviesByTag(tagID, LIMIT, offset);
+		mv.addObject("movies", movies);
+		return mv;
+	}
+	
+	@RequestMapping("/movie/{movieID}")
+	public ModelAndView getMovie(@PathVariable int movieID){
 		ModelAndView mv = new ModelAndView("movie");
-		Movie movie = movieDAO.getMovie(movieId);
+		Movie movie = movieDAO.getMovie(movieID);
+		Director director = directorDAO.getDirectorByMovie(movieID);
+		List<Actor> actors = actorDAO.getActorsByMovie(movieID);
+		List<Genre> genres = genreDAO.getGenreByMovie(movieID);
+		List<Tag> tags = tagDAO.getTagsByMovie(movieID);
 		mv.addObject("movie", movie);
+		mv.addObject("director", director);
+		mv.addObject("actors", actors);
+		mv.addObject("genres", genres);
+		mv.addObject("tags", tags);
 		return mv;
 	}
 }

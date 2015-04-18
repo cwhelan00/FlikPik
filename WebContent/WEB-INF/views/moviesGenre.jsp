@@ -23,9 +23,9 @@
 	<p>pagination:</p>
 	<ul>
 		<c:if test="${pageNum > 0}">
-		<li><a href="<c:url value="/movies/page/${pageNum - 1}" />">previous</a></li>
+		<li><a href="<c:url value="/movies/genre/${genreType}/page/${pageNum - 1}" />">previous</a></li>
 		</c:if>
-		<li><a href="<c:url value="/movies/page/${pageNum + 1}" />">next</a></li>
+		<li><a href="<c:url value="/movies/genre/${genreType}/page/${pageNum + 1}" />">next</a></li>
 	</ul>
 </body>
 </html>

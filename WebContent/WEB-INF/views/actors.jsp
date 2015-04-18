@@ -5,28 +5,12 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Pik Them Fliks</title>
-<link href="<c:url value="/resources/css/bootstrap.min.css" />" rel="stylesheet" />
+<title>Insert title here</title>
 </head>
 <body>
-	<h2>Here be Fliks</h2>
-	
-	<p>Top ${limit} movies</p>
-	<ul>
-		<c:forEach var="movie" items="${movies}">
-		<li>${movie.title}</li>
-		</c:forEach>
-	</ul>
-	<p>Top ${limit} actors</p>
 	<ul>
 		<c:forEach var="actor" items="${actors}">
-		<li>${actor.name}</li>
-		</c:forEach>
-	</ul>
-	<p>Top ${limit} directors</p>
-	<ul>
-		<c:forEach var="director" items="${directors}">
-		<li>${director.name}</li>
+		<li><a href="<c:url value="/actors/actor/${actor.id}" />">${actor.name}</a></li>
 		</c:forEach>
 	</ul>
 </body>
