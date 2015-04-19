@@ -4,30 +4,84 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Pik Them Fliks</title>
-<link href="<c:url value="/resources/css/bootstrap.min.css" />" rel="stylesheet" />
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<title>Flik Pik</title>
+	<link href="http://fonts.googleapis.com/css?family=Lobster+Two" rel="stylesheet" type="text/css">
+	<link href="<c:url value="/resources/css/bootstrap.min.css" />" rel="stylesheet" />
+	<link href="<c:url value="/resources/css/style.css" />" rel="stylesheet" />
 </head>
 <body>
-	<h2>Here be Fliks</h2>
+
+	<nav class="nav navbar-default">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">Flik Pik</a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="#">Home</a></li>
+				<li><a href="<c:url value="/movies" />">Movies</a></li>
+				<li><a href="<c:url value="/actors" />">Actors</a></li>
+				<li><a href="<c:url value="/diretors" />">Directors</a></li>
+			</ul>
+			
+			<form class="navbar-form navbar-right" method="get" action="<c:url value="/search" />" role="search">
+				<div class="form-group">
+					<input type="text" class="form-control" placeholder="Search" name="query" />
+				</div>
+				<button type="submit" class="btn btn-default">Submit</button>
+			</form>
+		</div>
+	</nav>
 	
-	<p>Top ${limit} movies</p>
-	<ul>
-		<c:forEach var="movie" items="${movies}">
-		<li>${movie.title}</li>
-		</c:forEach>
-	</ul>
-	<p>Top ${limit} actors</p>
-	<ul>
-		<c:forEach var="actor" items="${actors}">
-		<li>${actor.name}</li>
-		</c:forEach>
-	</ul>
-	<p>Top ${limit} directors</p>
-	<ul>
-		<c:forEach var="director" items="${directors}">
-		<li>${director.name}</li>
-		</c:forEach>
-	</ul>
+	<div id="home-image" class="jumbotron">
+		<div class="container">
+		<h2>Flik Pik</h2>
+		<p>Welcome to the greatest film experience around</p>
+		</div>
+	</div>
+	
+	<div class="container">
+		<h2>Top ${limit}'s</h2>
+		<hr />
+		<div class="panel panel-default col-xs-3">
+			<div>
+				<h3>Movies</h3>
+			</div>
+			<div class="panel-body">
+				<ul>
+					<c:forEach var="movie" items="${movies}">
+					<li><a href="<c:url value="/movies/movie/${movie.id}" />">${movie.title}</a></li>
+					</c:forEach>
+				</ul>
+				<a href="<c:url value="/movies" />"><button class="btn btn-default pull-right">Movies</button></a>
+			</div>
+		</div>
+		<div class="panel panel-default col-xs-3 col-xs-offset-1">
+			<div>
+				<h3>Actors</h3>
+			</div>
+			<div class="panel-body">
+				<ul>
+					<c:forEach var="actor" items="${actors}">
+					<li><a href="<c:url value="/movies/movie/${movie.id}" />">${actor.name}</a></li>
+					</c:forEach>
+				</ul>
+				<a href="<c:url value="/actors" />"><button class="btn btn-default pull-right">Actors</button></a>
+			</div>
+		</div>
+		<div class="panel panel-default col-xs-3 col-xs-offset-1">
+			<div>
+				<h3>Directors</h3>
+			</div>
+			<div class="panel-body">
+				<ul>
+					<c:forEach var="director" items="${directors}">
+					<li><a href="<c:url value="/movies/movie/${movie.id}" />">${director.name}</a></li>
+					</c:forEach>
+				</ul>
+				<a href="<c:url value="/directors" />"><button class="btn btn-default pull-right">Directors</button></a>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

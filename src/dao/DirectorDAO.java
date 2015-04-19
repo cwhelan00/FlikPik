@@ -4,8 +4,10 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import mapper.ActorMapper;
 import mapper.DirectorMapper;
 import mapper.ScoreDirectorMapper;
+import model.Actor;
 import model.Director;
 import model.ScoreDirector;
 
@@ -20,8 +22,14 @@ public class DirectorDAO {
 	}
 	
 	public Director getDirector(String id){
-		String query = "SELECT * FROM Director WHERE id = ?";
+		String query = "SELECT * FROM Director WHERE id = ? ORDER BY name";
 		Director director = jdbcTemplate.queryForObject(query, new Object[]{id}, new DirectorMapper());
+		return director;
+	}
+	
+	public List<Director> getDirectorByName(String name){
+		String query = "SELECT * FROM Director WHERE name = ? GROUP BY name";
+		List<Director> director = jdbcTemplate.query(query, new Object[]{name}, new DirectorMapper());
 		return director;
 	}
 	
@@ -92,20 +100,20 @@ public class DirectorDAO {
 	}
 	
 	public List<Director> getDirectorsLike(String name){
-		String query = "SELECT * FROM Director WHERE name LIKE '%?%'";
-		List<Director> directors = jdbcTemplate.query(query, new Object[]{name}, new DirectorMapper());
+		String query = "SELECT * FROM Director WHERE name LIKE ?";
+		List<Director> directors = jdbcTemplate.query(query, new Object[]{"%"+name+"%"}, new DirectorMapper());
 		return directors;
 	}
 	
 	public List<Director> getDirectorsLike(String name, int limit){
-		String query = "SELECT * FROM Director WHERE name LIKE '%?%' LIMIT ?";
-		List<Director> directors = jdbcTemplate.query(query, new Object[]{name, limit}, new DirectorMapper());
+		String query = "SELECT * FROM Director WHERE name LIKE ? LIMIT ?";
+		List<Director> directors = jdbcTemplate.query(query, new Object[]{"%"+name+"%", limit}, new DirectorMapper());
 		return directors;
 	}
 	
 	public List<Director> getDirectorsLike(String name, int limit, int offset){
-		String query = "SELECT * FROM Director WHERE name LIKE '%?%' LIMIT ? OFFSET ?";
-		List<Director> directors = jdbcTemplate.query(query, new Object[]{name, limit, offset}, new DirectorMapper());
+		String query = "SELECT * FROM Director WHERE name LIKE ? LIMIT ? OFFSET ?";
+		List<Director> directors = jdbcTemplate.query(query, new Object[]{"%"+name+"%", limit, offset}, new DirectorMapper());
 		return directors;
 	}
 }

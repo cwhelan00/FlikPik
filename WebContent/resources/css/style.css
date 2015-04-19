@@ -1,0 +1,27 @@
+@CHARSET "ISO-8859-1";
+
+li {
+	list-style-type: none;
+}
+
+li > a {
+	color: black;
+}
+
+li > a:hover {
+	color: black;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+.panel {
+	border: 0;
+	box-shadow: 3px 3px 5px black;
+}
+
+#home-image {
+	height: 500px;
+	background-image: url("../image/film.jpeg");
+	box-shadow: 5px 0px 5px black;
+	font-family: 'Lobster Two', Helvetica, sans-serif;
+}

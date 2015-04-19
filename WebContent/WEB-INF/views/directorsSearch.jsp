@@ -9,22 +9,26 @@
 </head>
 <body>
 	<form method="GET" action="/FlikPik/actors/search">
-		<input name="name" />
+		<input name="name" value="${searchName}"/>
 		<input type="submit" value="search" />
 	</form>
 	<p>page number: ${pageNum}</p>
+	<c:if test="${not empty exactDirector}">
+	<p>We found an exact match here</p>
+	<p><a href="<c:url value="/directors/director/${exactDirector.id}" />">${exactDirector.name}</a></p>
+	</c:if>
 	<ul>
-		<c:forEach var="actor" items="${actors}">
-		<li><a href="<c:url value="/actors/actor/${actor.id}" />">${actor.name}</a></li>
+		<c:forEach var="director" items="${directors}">
+		<li><a href="<c:url value="/directors/director/${director.id}" />">${director.name}</a></li>
 		</c:forEach>
 	</ul>
 	
 	<p>pagination:</p>
 	<ul>
 		<c:if test="${pageNum > 0}">
-		<li><a href="<c:url value="/actors/page/${pageNum - 1}" />">previous</a></li>
+		<li><a href="<c:url value="/directors/search/page/${pageNum - 1}?name=${searchName}" />">previous</a></li>
 		</c:if>
-		<li><a href="<c:url value="/actors/page/${pageNum + 1}" />">next</a></li>
+		<li><a href="<c:url value="/directors/search/page/${pageNum + 1}?name=${searchName}" />">next</a></li>
 	</ul>
 </body>
 </html>

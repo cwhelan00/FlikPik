@@ -187,4 +187,37 @@ public class MovieDAO {
 		List<Movie> movies = jdbcTemplate.query(query, new Object[]{tagID, limit, offset}, new MovieMapper());
 		return movies;
 	}
+	
+	public List<Movie> getMoviesByTagLike(String tagValue){
+		String query = "SELECT DISTINCT M.title, M.id, M.year, M.rtAudienceScore, M.rt_url, M.imdb_url, M.directorID "
+				+ "FROM Tag T, Movie M, Has_tag HT "
+				+ "WHERE HT.tagID = T.id AND HT.movieID = M.id AND T.value LIKE ? "
+				+ "GROUP BY M.title "
+				+ "ORDER BY M.year";
+		List<Movie> movies = jdbcTemplate.query(query, new Object[]{"%"+tagValue+"%"}, new MovieMapper());
+		return movies;
+	}
+	
+	public List<Movie> getMoviesByTagLike(String tagValue, int limit){
+		String query = "SELECT DISTINCT M.title, M.id, M.year, M.rtAudienceScore, M.rt_url, M.imdb_url, M.directorID "
+				+ "FROM Tag T, Movie M, Has_tag HT "
+				+ "WHERE HT.tagID = T.id AND HT.movieID = M.id AND T.value LIKE ? "
+				+ "GROUP BY M.title "
+				+ "ORDER BY M.year "
+				+ "LIMIT ?";
+		List<Movie> movies = jdbcTemplate.query(query, new Object[]{"%"+tagValue+"%", limit}, new MovieMapper());
+		return movies;
+	}
+	
+	public List<Movie> getMoviesByTagLike(String tagValue, int limit, int offset){
+		String query = "SELECT DISTINCT M.title, M.id, M.year, M.rtAudienceScore, M.rt_url, M.imdb_url, M.directorID "
+				+ "FROM Tag T, Movie M, Has_tag HT "
+				+ "WHERE HT.tagID = T.id AND HT.movieID = M.id AND T.value LIKE ? "
+				+ "GROUP BY M.title "
+				+ "ORDER BY M.year "
+				+ "LIMIT ? "
+				+ "OFFSET ?";
+		List<Movie> movies = jdbcTemplate.query(query, new Object[]{"%"+tagValue+"%", limit, offset}, new MovieMapper());
+		return movies;
+	}
 }

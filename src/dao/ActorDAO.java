@@ -5,8 +5,10 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import mapper.ActorMapper;
+import mapper.MovieMapper;
 import mapper.ScoreActorMapper;
 import model.Actor;
+import model.Movie;
 import model.ScoreActor;
 
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -20,8 +22,14 @@ public class ActorDAO {
 	}
 	
 	public Actor getActor(String id){
-		String query = "SELECT * FROM Actor WHERE id = ?";
+		String query = "SELECT * FROM Actor WHERE id = ? ORDER BY name";
 		Actor actor = jdbcTemplate.queryForObject(query, new Object[]{id}, new ActorMapper());
+		return actor;
+	}
+	
+	public List<Actor> getActorByName(String name){
+		String query = "SELECT * FROM Actor WHERE name = ? GROUP BY name";
+		List<Actor> actor = jdbcTemplate.query(query, new Object[]{name}, new ActorMapper());
 		return actor;
 	}
 	
@@ -86,20 +94,20 @@ public class ActorDAO {
 	}
 	
 	public List<Actor> getActorsLike(String name){
-		String query = "SELECT * FROM Actor WHERE name LIKE '%?%'";
-		List<Actor> actors = jdbcTemplate.query(query, new Object[]{name}, new ActorMapper());
+		String query = "SELECT * FROM Actor WHERE name LIKE ?";
+		List<Actor> actors = jdbcTemplate.query(query, new Object[]{"%"+name+"%"}, new ActorMapper());
 		return actors;
 	}
 	
 	public List<Actor> getActorsLike(String name, int limit){
-		String query = "SELECT * FROM Actor WHERE name LIKE '%?%' LIMIT ?";
-		List<Actor> actors = jdbcTemplate.query(query, new Object[]{name, limit}, new ActorMapper());
+		String query = "SELECT * FROM Actor WHERE name LIKE ? LIMIT ?";
+		List<Actor> actors = jdbcTemplate.query(query, new Object[]{"%"+name+"%", limit}, new ActorMapper());
 		return actors;
 	}
 	
 	public List<Actor> getActorsLike(String name, int limit, int offset){
-		String query = "SELECT * FROM Actor WHERE name LIKE '%?%' LIMIT ? OFFSET ?";
-		List<Actor> actors = jdbcTemplate.query(query, new Object[]{name, limit, offset}, new ActorMapper());
+		String query = "SELECT * FROM Actor WHERE name LIKE ? LIMIT ? OFFSET ?";
+		List<Actor> actors = jdbcTemplate.query(query, new Object[]{"%"+name+"%", limit, offset}, new ActorMapper());
 		return actors;
 	}
 	

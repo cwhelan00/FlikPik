@@ -13,6 +13,7 @@
 	<p>score: ${movie.rtAudienceScore}</p>
 	<p>director: <a href="<c:url value="/directors/director/${director.id}" />">${director.name}</a></p>
 	<img src="${movie.rtPictureUrl}"></img>
+	<img src="${movie.imdbPictureUrl}"></img>
 	<p>Check these actors:</p>
 	<ul>
 		<c:forEach var="actor" items="${actors}">

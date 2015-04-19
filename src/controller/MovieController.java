@@ -116,8 +116,10 @@ public class MovieController {
 	
 	@RequestMapping("/tag/{tagID}")
 	public ModelAndView getMoviesByTag(@PathVariable int tagID){
-		ModelAndView mv = new ModelAndView("movies");
-		List<Movie> movies = movieDAO.getMoviesByTag(tagID);
+		ModelAndView mv = new ModelAndView("moviesTag");
+		List<Movie> movies = movieDAO.getMoviesByTag(tagID, LIMIT);
+		mv.addObject("pageNum", 0);
+		mv.addObject("tagID", tagID);
 		mv.addObject("movies", movies);
 		return mv;
 	}
@@ -125,8 +127,29 @@ public class MovieController {
 	@RequestMapping("/tag/{tagID}/page/{pageNum}")
 	public ModelAndView getMoviesByTagPage(@PathVariable int tagID, @PathVariable int pageNum){
 		int offset = pageNum * LIMIT;
-		ModelAndView mv = new ModelAndView("movies");
+		ModelAndView mv = new ModelAndView("moviesTag");
 		List<Movie> movies = movieDAO.getMoviesByTag(tagID, LIMIT, offset);
+		mv.addObject("movies", movies);
+		return mv;
+	}
+	
+	@RequestMapping("/tag/search")
+	public ModelAndView getMoviesByTagSearch(@RequestParam("value") String value){
+		ModelAndView mv = new ModelAndView("moviesTagSearch");
+		List<Movie> movies = movieDAO.getMoviesByTagLike(value, LIMIT);
+		mv.addObject("pageNum", 0);
+		mv.addObject("tagValue", value);
+		mv.addObject("movies", movies);
+		return mv;
+	}
+	
+	@RequestMapping("/tag/search/page/{pageNum}")
+	public ModelAndView getMoviesByTagSearch(@RequestParam("value") String value, @PathVariable int pageNum){
+		int offset = pageNum * LIMIT;
+		ModelAndView mv = new ModelAndView("moviesTagSearch");
+		List<Movie> movies = movieDAO.getMoviesByTagLike(value, LIMIT, offset);
+		mv.addObject("pageNum", pageNum);
+		mv.addObject("tagValue", value);
 		mv.addObject("movies", movies);
 		return mv;
 	}

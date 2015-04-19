@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import dao.ActorDAO;
@@ -30,7 +31,8 @@ public class ActorController {
 	@RequestMapping("")
 	public ModelAndView actors(){
 		ModelAndView mv = new ModelAndView("actors");
-		List<Actor> actors = actorDAO.getActors();
+		List<Actor> actors = actorDAO.getActors(LIMIT);
+		mv.addObject("pageNum", 0);
 		mv.addObject("actors", actors);
 		return mv;
 	}
@@ -40,6 +42,35 @@ public class ActorController {
 		int offset = pageNum * LIMIT;
 		ModelAndView mv = new ModelAndView("actors");
 		List<Actor> actors = actorDAO.getActors(LIMIT, offset);
+		mv.addObject("actors", actors);
+		return mv;
+	}
+	
+	@RequestMapping("/search")
+	public ModelAndView actorsSearch(@RequestParam("name") String name){
+		ModelAndView mv = new ModelAndView("actorsSearch");
+		List<Actor> actors = actorDAO.getActorsLike(name, LIMIT);
+		List<Actor> exact = actorDAO.getActorByName(name);
+		if(!exact.isEmpty()){
+			mv.addObject("exactActor", exact.get(0));
+		}
+		mv.addObject("pageNum", 0);
+		mv.addObject("searchName", name);
+		mv.addObject("actors", actors);
+		return mv;
+	}
+	
+	@RequestMapping("/search/page/{pageNum}")
+	public ModelAndView actorsSearchPage(@PathVariable int pageNum, @RequestParam("name") String name){
+		int offset = pageNum * LIMIT;
+		ModelAndView mv = new ModelAndView("actorsSearch");
+		List<Actor> actors = actorDAO.getActorsLike(name, LIMIT, offset);
+		List<Actor> exact = actorDAO.getActorByName(name);
+		if(!exact.isEmpty()){
+			mv.addObject("exactActor", exact.get(0));
+		}
+		mv.addObject("pageNum", pageNum);
+		mv.addObject("searchName", name);
 		mv.addObject("actors", actors);
 		return mv;
 	}

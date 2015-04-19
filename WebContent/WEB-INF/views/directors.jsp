@@ -8,23 +8,23 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form method="GET" action="/FlikPik/actors/search">
+	<form method="GET" action="/FlikPik/directors/search">
 		<input name="name" />
 		<input type="submit" value="search" />
 	</form>
 	<p>page number: ${pageNum}</p>
 	<ul>
-		<c:forEach var="actor" items="${actors}">
-		<li><a href="<c:url value="/actors/actor/${actor.id}" />">${actor.name}</a></li>
+		<c:forEach var="director" items="${directors}">
+		<li><a href="<c:url value="/directors/director/${director.id}" />">${director.name}</a></li>
 		</c:forEach>
 	</ul>
 	
 	<p>pagination:</p>
 	<ul>
 		<c:if test="${pageNum > 0}">
-		<li><a href="<c:url value="/actors/page/${pageNum - 1}" />">previous</a></li>
+		<li><a href="<c:url value="/directors/page/${pageNum - 1}" />">previous</a></li>
 		</c:if>
-		<li><a href="<c:url value="/actors/page/${pageNum + 1}" />">next</a></li>
+		<li><a href="<c:url value="/directors/page/${pageNum + 1}" />">next</a></li>
 	</ul>
 </body>
 </html>
