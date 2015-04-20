@@ -34,10 +34,6 @@
 	</nav>
 	
 	<div id="home-image" class="jumbotron">
-		<div class="container">
-		<h2>Flik Pik</h2>
-		<p>Welcome to the greatest film experience around</p>
-		</div>
 	</div>
 	
 	<div class="container">

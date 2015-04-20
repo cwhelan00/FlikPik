@@ -41,6 +41,7 @@
 		<div class="col-xs-12 panel panel-default">
 			<div class="col-xs-6">
 				<img src="${movie.rtPictureUrl}" />
+				<img src="${movie.imdbPictureUrl}" />
 				<br />
 			</div>
 			<div class="col-xs-6">

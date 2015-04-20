@@ -53,6 +53,8 @@ p > a:hover {
 #home-image {
 	height: 500px;
 	background-image: url("../image/film.jpeg");
+	background-size: 100% auto;
+	backgouund-position: center;
 	box-shadow: 5px 0px 5px black;
 	font-family: 'Lobster Two', Helvetica, sans-serif;
 }

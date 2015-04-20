@@ -48,7 +48,7 @@
 				<h2>Movies</h2>
 				<ul>
 					<c:forEach var="movie" items="${movies}">
-					<li><a href="<c:url value="/movies/movie/${movie.id}" />" class="movie" url="${movie.rtPictureUrl}">${movie.title} ${movie.id}</a></li>
+					<li><a href="<c:url value="/movies/movie/${movie.id}" />" class="movie" url="${movie.rtPictureUrl}">${movie.title}</a></li>
 					</c:forEach>
 				</ul>
 			</div>

@@ -67,6 +67,20 @@
 			</div>
 			<hr />
 			</c:if>
+			<c:if test="${not empty exactTag}">
+			<h2>Your Query Exactly Matched This Tag</h2>
+			<div class="col-xs-12 panel panel-default">
+				<p class="large"><a href="<c:url value="/movies/tag/${exactTag.id}" />">${exactTag.value}</a></p>
+			</div>
+			<hr />
+			</c:if>
+			<c:if test="${not empty exactGenre}">
+			<h2>Your Query Exactly Matched This Genre</h2>
+			<div class="col-xs-12 panel panel-default">
+				<p class="large"><a href="<c:url value="/movies/genre/${exactGenre.type}" />">${exactGenre.type}</a></p>
+			</div>
+			<hr />
+			</c:if>
 		</div>
 		<div class="col-xs-6">
 			<div id="movieCount" class="panel panel-default clickable">

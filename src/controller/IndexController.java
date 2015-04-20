@@ -67,10 +67,14 @@ public class IndexController{
 		List<Movie> exactMovie = movieDAO.getMovieByTitle(query);
 		List<Actor> exactActor = actorDAO.getActorByName(query);
 		List<Director> exactDirector = directorDAO.getDirectorByName(query);
+		List<Tag> exactTag = tagDAO.getTagByValue(query);
+		List<Genre> exactGenre = genreDAO.getGenreByType(query);
 		
 		if(!exactMovie.isEmpty()) mv.addObject("exactMovie", exactMovie.get(0));
 		if(!exactActor.isEmpty()) mv.addObject("exactActor", exactActor.get(0));
 		if(!exactDirector.isEmpty()) mv.addObject("exactDirector", exactDirector.get(0));
+		if(!exactTag.isEmpty()) mv.addObject("exactTag", exactTag.get(0));
+		if(!exactGenre.isEmpty()) mv.addObject("exactGenre", exactGenre.get(0));
 		
 		mv.addObject("movieCount", movies.size());
 		mv.addObject("actorCount", actors.size());

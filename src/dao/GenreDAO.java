@@ -23,6 +23,12 @@ public class GenreDAO {
 		return genre;
 	}
 	
+	public List<Genre> getGenreByType(String type){
+		String query = "SELECT * FROM Genre WHERE type = ?";
+		List<Genre> genre = jdbcTemplate.query(query, new Object[]{type}, new GenreMapper());
+		return genre;
+	}
+	
 	public List<Genre> getGenres(){
 		String query = "SELECT * FROM Genre";
 		List<Genre> genres = jdbcTemplate.query(query, new GenreMapper());
