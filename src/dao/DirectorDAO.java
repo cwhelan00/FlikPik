@@ -4,10 +4,8 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import mapper.ActorMapper;
 import mapper.DirectorMapper;
 import mapper.ScoreDirectorMapper;
-import model.Actor;
 import model.Director;
 import model.ScoreDirector;
 
@@ -22,7 +20,7 @@ public class DirectorDAO {
 	}
 	
 	public Director getDirector(String id){
-		String query = "SELECT * FROM Director WHERE id = ? ORDER BY name";
+		String query = "SELECT * FROM Director WHERE id = ?";
 		Director director = jdbcTemplate.queryForObject(query, new Object[]{id}, new DirectorMapper());
 		return director;
 	}
@@ -49,19 +47,19 @@ public class DirectorDAO {
 	}
 	
 	public List<Director> getDirectors(){
-		String query = "SELECT * FROM Director";
+		String query = "SELECT * FROM Director ORDER BY name";
 		List<Director> directors = jdbcTemplate.query(query, new DirectorMapper());
 		return directors;
 	}
 	
 	public List<Director> getDirectors(int limit){
-		String query = "SELECT * FROM Director LIMIT ?";
+		String query = "SELECT * FROM Director ORDER BY name LIMIT ?";
 		List<Director> directors = jdbcTemplate.query(query, new Object[]{limit}, new DirectorMapper());
 		return directors;
 	}
 	
 	public List<Director> getDirectors(int limit, int offset){
-		String query = "SELECT * FROM Director LIMIT ? OFFSET ?";
+		String query = "SELECT * FROM Director ORDER BY name LIMIT ? OFFSET ?";
 		List<Director> directors = jdbcTemplate.query(query, new Object[]{limit, offset}, new DirectorMapper());
 		return directors;
 	}

@@ -43,19 +43,19 @@ public class ActorDAO {
 	}
 	
 	public List<Actor> getActors(){
-		String query = "SELECT * FROM Actor";
+		String query = "SELECT * FROM Actor ORDER BY name";
 		List<Actor> actors = jdbcTemplate.query(query, new ActorMapper());
 		return actors;
 	}
 	
 	public List<Actor> getActors(int limit){
-		String query = "SELECT * FROM Actor LIMIT ?";
+		String query = "SELECT * FROM Actor ORDER BY name LIMIT ? ";
 		List<Actor> actors = jdbcTemplate.query(query, new Object[]{limit}, new ActorMapper());
 		return actors;
 	}
 	
 	public List<Actor> getActors(int limit, int offset){
-		String query = "SELECT * FROM Actor LIMIT ? OFFSET ?";
+		String query = "SELECT * FROM Actor ORDER BY name LIMIT ? OFFSET ?";
 		List<Actor> actors = jdbcTemplate.query(query, new Object[]{limit, offset}, new ActorMapper());
 		return actors;
 	}

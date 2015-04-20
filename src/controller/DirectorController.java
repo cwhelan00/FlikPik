@@ -2,7 +2,6 @@ package controller;
 
 import java.util.List;
 
-import model.Actor;
 import model.Director;
 import model.Movie;
 import model.ScoreDirector;
@@ -27,7 +26,7 @@ public class DirectorController {
 	@Autowired
 	MovieDAO movieDAO;
 	
-	private static final int LIMIT = 50;
+	private static final int LIMIT = 25;
 	
 	@RequestMapping("")
 	public ModelAndView directors(){

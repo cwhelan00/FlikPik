@@ -45,7 +45,7 @@ public class IndexController{
 	@RequestMapping("")
 	protected ModelAndView index() {
 		ModelAndView mv = new ModelAndView("index");
-		List<Movie> movies = movieDAO.getMovies(LIMIT);
+		List<Movie> movies = movieDAO.getMoviesScore(LIMIT);
 		List<ScoreActor> actors = actorDAO.getScoreActors(LIMIT);
 		List<ScoreDirector> directors = directorDAO.getScoreDirectors(LIMIT);
 		mv.addObject("limit", LIMIT);
@@ -64,6 +64,14 @@ public class IndexController{
 		List<Tag> tags = tagDAO.getTagsLike(query);
 		List<Genre> genres = genreDAO.getGenresLike(query);
 		
+		List<Movie> exactMovie = movieDAO.getMovieByTitle(query);
+		List<Actor> exactActor = actorDAO.getActorByName(query);
+		List<Director> exactDirector = directorDAO.getDirectorByName(query);
+		
+		if(!exactMovie.isEmpty()) mv.addObject("exactMovie", exactMovie.get(0));
+		if(!exactActor.isEmpty()) mv.addObject("exactActor", exactActor.get(0));
+		if(!exactDirector.isEmpty()) mv.addObject("exactDirector", exactDirector.get(0));
+		
 		mv.addObject("movieCount", movies.size());
 		mv.addObject("actorCount", actors.size());
 		mv.addObject("directorCount", directors.size());
@@ -76,6 +84,9 @@ public class IndexController{
 		mv.addObject("directors", directors.subList(0, (LIMIT > directors.size()) ? directors.size() : LIMIT));
 		mv.addObject("tags", tags.subList(0, (LIMIT > tags.size()) ? tags.size() : LIMIT));
 		mv.addObject("genres", genres);
+		
+		mv.addObject("query", query);
+		mv.addObject("limit", LIMIT);
 		
 		return mv;
 	}

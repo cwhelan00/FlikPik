@@ -23,9 +23,27 @@ public class TagDAO {
 		return tag;
 	}
 	
+	public List<Tag> getTagByValue(String value){
+		String query = "SELECT * FROM Tag WHERE value = ?";
+		List<Tag> tag = jdbcTemplate.query(query, new Object[]{value}, new TagMapper());
+		return tag;
+	}
+	
 	public List<Tag> getTags(){
-		String query = "SELECT * FROM Tag";
+		String query = "SELECT * FROM Tag ORDER BY value";
 		List<Tag> tags = jdbcTemplate.query(query, new TagMapper());
+		return tags;
+	}
+	
+	public List<Tag> getTags(int limit){
+		String query = "SELECT * FROM Tag ORDER BY value LIMIT ?";
+		List<Tag> tags = jdbcTemplate.query(query, new Object[]{limit}, new TagMapper());
+		return tags;
+	}
+	
+	public List<Tag> getTags(int limit, int offset){
+		String query = "SELECT * FROM Tag ORDER BY value LIMIT ? OFFSET ?";
+		List<Tag> tags = jdbcTemplate.query(query, new Object[]{limit, offset}, new TagMapper());
 		return tags;
 	}
 	

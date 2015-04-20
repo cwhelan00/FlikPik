@@ -14,9 +14,40 @@ li > a:hover {
 	text-decoration: none;
 }
 
+p > a {
+	color: black;
+}
+
+p > a:hover {
+	color: black;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
 .panel {
 	border: 0;
 	box-shadow: 3px 3px 5px black;
+}
+
+.pagination > li {
+	color: black;
+}
+
+.pagination > li active {
+	background-color: black;
+}
+
+.large {
+	font-size: 200%;
+}
+
+.clickable {
+	cursor: pointer;
+}
+
+.full-image {
+	width: 500px;
+	height: 700px;
 }
 
 #home-image {

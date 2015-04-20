@@ -26,7 +26,7 @@ public class ActorController {
 	@Autowired
 	MovieDAO movieDAO;
 	
-	private static final int LIMIT = 50;
+	private static final int LIMIT = 25;
 
 	@RequestMapping("")
 	public ModelAndView actors(){

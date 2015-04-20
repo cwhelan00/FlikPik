@@ -24,18 +24,36 @@ public class MovieDAO {
 	}
 	
 	public List<Movie> getMovies(){
-		String query = "SELECT * FROM Movie GROUP BY title ORDER BY rtAudienceScore desc";
+		String query = "SELECT * FROM Movie GROUP BY title ORDER BY title";
 		List<Movie> movies = jdbcTemplate.query(query, new MovieMapper());
 		return movies;
 	}
 	
 	public List<Movie> getMovies(int limit){
-		String query = "SELECT * FROM Movie GROUP BY title ORDER BY rtAudienceScore desc LIMIT ?";
+		String query = "SELECT * FROM Movie GROUP BY title ORDER BY title LIMIT ?";
 		List<Movie> movies = jdbcTemplate.query(query, new Object[]{limit}, new MovieMapper());
 		return movies;
 	}
 	
 	public List<Movie> getMovies(int limit, int offset){
+		String query = "SELECT * FROM Movie GROUP BY title ORDER BY title LIMIT ? OFFSET ? ";
+		List<Movie> movies = jdbcTemplate.query(query, new Object[]{limit, offset}, new MovieMapper());
+		return movies;
+	}
+	
+	public List<Movie> getMoviesScore(){
+		String query = "SELECT * FROM Movie GROUP BY title ORDER BY rtAudienceScore desc";
+		List<Movie> movies = jdbcTemplate.query(query, new MovieMapper());
+		return movies;
+	}
+	
+	public List<Movie> getMoviesScore(int limit){
+		String query = "SELECT * FROM Movie GROUP BY title ORDER BY rtAudienceScore desc LIMIT ?";
+		List<Movie> movies = jdbcTemplate.query(query, new Object[]{limit}, new MovieMapper());
+		return movies;
+	}
+	
+	public List<Movie> getMoviesScore(int limit, int offset){
 		String query = "SELECT * FROM Movie GROUP BY title ORDER BY rtAudienceScore desc LIMIT ? OFFSET ? ";
 		List<Movie> movies = jdbcTemplate.query(query, new Object[]{limit, offset}, new MovieMapper());
 		return movies;

@@ -39,7 +39,7 @@ public class MovieController {
 	@Autowired
 	private TagDAO tagDAO;
 	
-	private static final int LIMIT = 50;
+	private static final int LIMIT = 25;
 	
 	@RequestMapping("")
 	public ModelAndView movies(){
@@ -118,6 +118,8 @@ public class MovieController {
 	public ModelAndView getMoviesByTag(@PathVariable int tagID){
 		ModelAndView mv = new ModelAndView("moviesTag");
 		List<Movie> movies = movieDAO.getMoviesByTag(tagID, LIMIT);
+		Tag tag = tagDAO.getTag(tagID);
+		mv.addObject("tagValue", tag.getValue());
 		mv.addObject("pageNum", 0);
 		mv.addObject("tagID", tagID);
 		mv.addObject("movies", movies);
@@ -129,6 +131,10 @@ public class MovieController {
 		int offset = pageNum * LIMIT;
 		ModelAndView mv = new ModelAndView("moviesTag");
 		List<Movie> movies = movieDAO.getMoviesByTag(tagID, LIMIT, offset);
+		Tag tag = tagDAO.getTag(tagID);
+		mv.addObject("pageNum", pageNum);
+		mv.addObject("tagID", tagID);
+		mv.addObject("tagValue", tag.getValue());
 		mv.addObject("movies", movies);
 		return mv;
 	}
@@ -158,12 +164,15 @@ public class MovieController {
 	public ModelAndView getMovie(@PathVariable int movieID){
 		ModelAndView mv = new ModelAndView("movie");
 		Movie movie = movieDAO.getMovie(movieID);
-		Director director = directorDAO.getDirectorByMovie(movieID);
+		if(movie.getDirectorId() != null){
+			Director director = directorDAO.getDirectorByMovie(movieID);
+			mv.addObject("director", director);
+		}
 		List<Actor> actors = actorDAO.getActorsByMovie(movieID);
 		List<Genre> genres = genreDAO.getGenreByMovie(movieID);
 		List<Tag> tags = tagDAO.getTagsByMovie(movieID);
 		mv.addObject("movie", movie);
-		mv.addObject("director", director);
+		
 		mv.addObject("actors", actors);
 		mv.addObject("genres", genres);
 		mv.addObject("tags", tags);
