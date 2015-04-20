@@ -63,7 +63,7 @@
 			<div class="panel-body">
 				<ul>
 					<c:forEach var="actor" items="${actors}">
-					<li><a href="<c:url value="/movies/movie/${movie.id}" />">${actor.name}</a></li>
+					<li><a href="<c:url value="/actors/actor/${actor.id}" />">${actor.name}</a></li>
 					</c:forEach>
 				</ul>
 				<a href="<c:url value="/actors" />"><button class="btn btn-default pull-right">Actors</button></a>
@@ -76,7 +76,7 @@
 			<div class="panel-body">
 				<ul>
 					<c:forEach var="director" items="${directors}">
-					<li><a href="<c:url value="/movies/movie/${movie.id}" />">${director.name}</a></li>
+					<li><a href="<c:url value="/directors/director/${director.id}" />">${director.name}</a></li>
 					</c:forEach>
 				</ul>
 				<a href="<c:url value="/directors" />"><button class="btn btn-default pull-right">Directors</button></a>

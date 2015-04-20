@@ -37,8 +37,9 @@
 	<br />
 	
 	<div class="container">
+		<h2>Actor</h2>
 		<div class="col-xs-12 panel panel-default">
-			<p class="large"><a href="<c:url value="/actors/actor/${actor.id}" />">${actor.name}</a></p>
+			<p class="large">${actor.name}</p>
 			<p>Average Movie Score: ${actor.avgScore}</p>
 		</div>
 		<div class="row">
